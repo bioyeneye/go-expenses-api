@@ -1,0 +1,3 @@
+for db uuid default
+CREATE EXTENSION "uuid-ossp"
+

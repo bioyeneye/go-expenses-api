@@ -15,6 +15,7 @@ import (
 
 //https://github.com/heroku/go-getting-started
 //https://medium.com/@sathishvj/web-handlers-and-middleware-in-golang-2706c2ecfb75
+//https://stackoverflow.com/questions/60012553/golang-creating-relation-between-2-model-and-retrieve-them-with-preload-using-g
 func main() {
 
 	utilities.SetupEnvironment()
@@ -26,11 +27,11 @@ func main() {
 		dbConfig := db.NewDBConfigFromEnv()
 		dbConString = fmt.Sprintf("host=%v port=%v user=%v dbname=%v password=%v sslmode=disable",
 			dbConfig.Host, dbConfig.Port, dbConfig.Username, dbConfig.Name, dbConfig.Password)
-	}else{
+	} else {
 		dbConString = os.Getenv(constants.DatabaseUrl)
 	}
 
-	dbEntities := []interface{} {
+	dbEntities := []interface{}{
 		&entities.Users{},
 	}
 
