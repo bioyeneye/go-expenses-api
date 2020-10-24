@@ -6,6 +6,7 @@ import (
 	"github.com/bioyeneye/expenses-api/core/middleswares"
 	"github.com/bioyeneye/expenses-api/core/utilities"
 	"github.com/bioyeneye/expenses-api/db"
+	"github.com/bioyeneye/expenses-api/handlers"
 	"github.com/gin-gonic/gin"
 	gindump "github.com/tpkeeper/gin-dump"
 	"os"
@@ -17,11 +18,23 @@ func main() {
 	utilities.SetupEnvironment()
 	utilities.SetupLogOutput()
 
-	dbConfig := db.NewDBConfigFromEnv()
-	dbConString := fmt.Sprintf("host=%v port=%v user=%v dbname=%v password=%v sslmode=disable",
-		dbConfig.Host, dbConfig.Port, dbConfig.Username, dbConfig.Name, dbConfig.Password)
+	dbConString := ""
+	env := os.Getenv(constants.Environment)
+	if env == "dev" {
+		dbConfig := db.NewDBConfigFromEnv()
+		dbConString = fmt.Sprintf("host=%v port=%v user=%v dbname=%v password=%v sslmode=disable",
+			dbConfig.Host, dbConfig.Port, dbConfig.Username, dbConfig.Name, dbConfig.Password)
+	}else{
+		dbConString = os.Getenv(constants.DatabaseUrl)
+	}
 
-	print(dbConString)
+	dbEntities := []interface{} {
+	}
+
+	dbInstance, dbErr := db.SetupDbModels("postgres", dbConString, dbEntities)
+	if dbErr != nil {
+		panic(dbErr.Error())
+	}
 
 	server := gin.New()
 	server.Use(
@@ -30,6 +43,8 @@ func main() {
 		middleswares.CORSMiddleware(),
 		middleswares.ContentTypeMiddleware(),
 		gindump.Dump())
+
+	handlers.InitApplication(server, dbInstance)
 
 	port := ":" + os.Getenv(constants.Port)
 	err := server.Run(port)

@@ -1,6 +1,6 @@
 package constants
 
-const  (
+const (
 	ApiUrlSuffix                 = "/api/v1"
 	ApplicationUserKey           = "applicationUserKey"
 	JWTSecretKey                 = "JWT_SECRET"
@@ -14,4 +14,6 @@ const  (
 	DatabasePortKey              = "DATABASE_PORT"
 	KeyRedisAddr                 = "KEY_REDIS_ADDR"
 	KeyRedisPort                 = "KEY_REDIS_PORT"
+	Environment                  = "ENVIRONMENT"
+	DatabaseUrl                  = "DATABASE_URL"
 )

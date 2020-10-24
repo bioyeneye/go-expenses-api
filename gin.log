@@ -2,4 +2,9 @@
  - using env:	export GIN_MODE=release
  - using code:	gin.SetMode(gin.ReleaseMode)
 
+[GIN-debug] GET    /_status                  --> github.com/bioyeneye/expenses-api/handlers.InitApplication.func1 (6 handlers)
+[GIN-debug] GET    /test                     --> github.com/bioyeneye/expenses-api/handlers.InitApplication.func2 (6 handlers)
 [GIN-debug] Listening and serving HTTP on :4000
+::1 - [Sat, 24 Oct 2020 15:38:13 WAT] GET / 404 770.785µs
+::1 - [Sat, 24 Oct 2020 15:38:14 WAT] GET /favicon.ico 404 379.837µs
+::1 - [Sat, 24 Oct 2020 15:38:56 WAT] GET /test 200 1.055695ms
