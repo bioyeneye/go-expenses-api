@@ -6,6 +6,7 @@ import (
 	"github.com/bioyeneye/expenses-api/core/middleswares"
 	"github.com/bioyeneye/expenses-api/core/utilities"
 	"github.com/bioyeneye/expenses-api/db"
+	"github.com/bioyeneye/expenses-api/db/entities"
 	"github.com/bioyeneye/expenses-api/handlers"
 	"github.com/gin-gonic/gin"
 	gindump "github.com/tpkeeper/gin-dump"
@@ -13,6 +14,7 @@ import (
 )
 
 //https://github.com/heroku/go-getting-started
+//https://medium.com/@sathishvj/web-handlers-and-middleware-in-golang-2706c2ecfb75
 func main() {
 
 	utilities.SetupEnvironment()
@@ -29,12 +31,16 @@ func main() {
 	}
 
 	dbEntities := []interface{} {
+		&entities.Users{},
 	}
 
 	dbInstance, dbErr := db.SetupDbModels("postgres", dbConString, dbEntities)
 	if dbErr != nil {
 		panic(dbErr.Error())
 	}
+
+	dbInstance.LogMode(true)
+	defer dbInstance.Close()
 
 	server := gin.New()
 	server.Use(
